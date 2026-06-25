@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VENDOR.COM – Fresh from the Farm</title>
+  <link rel="icon" href="https://i.ibb.co/99BQDk4r/v-leaf-logo.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/99BQDk4r/v-leaf-logo.jpg">
+
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#2e7d32;
+      --accent:#66bb6a;
+      --light:#e8f5e9;
+      --dark:#1b5e20;
+    }
+    body{font-family:'Poppins',sans-serif;background:#fafafa;color:#333;}
+    .navbar{background:var(--primary)!important;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+    .navbar .nav-link{color:#fff!important;font-weight:500;}
+    .navbar .nav-link:hover{color:var(--accent)!important;}
+
+    /* UPDATED SEARCH BAR - Always Expanded + Mic on Right */
+    .search-wrapper { 
+      max-width: 520px; 
+      width: 100%; 
+    }
+    .search-bar{
+      position:relative;
+      width: 100%;
+    }
+    .search-bar input{
+      border-radius:30px;
+      padding: 12px 20px 12px 48px;
+      width: 100% !important;
+      transition: box-shadow .35s ease;
+      font-size: 1.02rem;
+    }
+    .search-bar input:focus{
+      box-shadow:0 0 0 .2rem rgba(102,187,106,.25);
+    }
+
+    /* Search Icon (Left) */
+    .search-bar .bi-search{
+      position:absolute;
+      left:18px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#777;
+      z-index:2;
+      font-size: 1.25rem;
+    }
+
+    /* Voice Mic Icon (Right) */
+    #voiceBtn {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      z-index: 3;
+    }
+    #voiceBtn:hover {
+      background: rgba(102,187,106,0.1);
+    }
+
+    /* Original Styles (Unchanged) */
+    .search-dropdown{
+      display:none;
+      position:absolute;
+      top:100%; left:0; right:0;
+      max-height:300px;
+      overflow-y:auto;
+      z-index:1050;
+      margin-top:4px;
+      border-radius:12px;
+      background:#fff;
+      box-shadow:0 8px 24px rgba(0,0,0,.15);
+      border:1px solid #ddd;
+    }
+    .search-dropdown .list-group-item{
+      padding:.75rem 1rem;
+      font-size:.95rem;
+      cursor:pointer;
+      border-bottom:1px solid #eee;
+    }
+    .search-dropdown .list-group-item:last-child{border-bottom:none;}
+    .search-dropdown .list-group-item:hover,
+    .search-dropdown .list-group-item.active{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .hero-carousel .carousel-item{height:100vh;background:#000;}
+    .hero-carousel img{width:100%;height:100%;object-fit:cover;filter:brightness(.65);}
+    .hero-caption{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;z-index:2;}
+    .hero-caption h1{font-size:3.8rem;font-weight:700;letter-spacing:-1px;}
+    .hero-caption p{font-size:1.3rem;margin-top:1rem;}
+    .btn-cta{
+      background:var(--accent);color:#fff;padding:.75rem 2rem;border-radius:50px;
+      font-weight:600;transition:.3s;box-shadow:0 4px 12px rgba(102,187,106,.4);
+    }
+    .btn-cta:hover{background:#4caf50;transform:translateY(-3px);box-shadow:0 6px 16px rgba(76,175,80,.5);}
+
+    #about{
+      background:linear-gradient(135deg,rgba(76,175,80,.9),rgba(46,125,50,.9)),
+                 url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') center/cover no-repeat;
+      min-height:70vh;display:flex;align-items:center;justify-content:center;
+      padding:60px 20px;margin-top:-1px;
+    }
+    .about-glass{
+      background:rgba(255,255,255,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      padding:40px;border-radius:20px;max-width:900px;box-shadow:0 8px 32px rgba(0,0,0,.2);
+      border:1px solid rgba(255,255,255,.3);text-align:center;color:#fff;
+      opacity:0;transform:translateY(40px);transition:all 1s ease-out;
+    }
+    .about-glass.visible{opacity:1;transform:none;}
+    .about-glass h2{font-weight:700;font-size:2.2rem;margin-bottom:20px;text-transform:uppercase;letter-spacing:1.5px;}
+    .about-glass p{font-size:1.1rem;line-height:1.8;font-weight:300;}
+
+    .farmer-card{
+      transition:all .3s ease;border:1px solid #e0e0e0;background:#fff;
+    }
+    .farmer-card:hover{transform:translateY(-8px);box-shadow:0 12px 24px rgba(0,0,0,.1)!important;}
+    .farmer-card img{width:80px;height:80px;object-fit:cover;}
+    .rating{color:#ffc107;font-size:.9rem;}
+
+    .deal-card{
+      transition:all .3s ease;background:#fff;border:1px solid #e0e0e0;
+    }
+    .deal-card:hover{transform:scale(1.05);box-shadow:0 8px 16px rgba(0,0,0,.1);}
+
+    .feature{transition:.3s;}
+    .feature:hover{transform:translateY(-8px);box-shadow:0 12px 24px rgba(0,0,0,.12);}
+
+    .testimonial-card{
+      background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.06);
+    }
+    .testimonial-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;}
+
+    .fab{
+      width:60px;height:60px;border-radius:50%;background:var(--accent);
+      color:#fff;box-shadow:0 4px 12px rgba(102,187,106,.5);
+      font-size:1.6rem;display:flex;align-items:center;justify-content:center;
+      transition:.3s;
+    }
+    .fab:hover{background:#4caf50;transform:scale(1.1);}
+
+    .newsletter{background:var(--primary);color:#fff;}
+    .newsletter input{border-radius:30px;padding:.6rem 1.2rem;}
+    .newsletter button{
+      background:#fff;color:var(--primary);border-radius:30px;padding:.6rem 1.5rem;
+      font-weight:600;transition:.3s;
+    }
+    .newsletter button:hover{background:var(--accent);color:#fff;}
+
+    .fade-up{opacity:0;transform:translateY(40px);transition:all .8s ease-out;}
+    .fade-up.visible{opacity:1;transform:none;}
+
+    @media (max-width: 992px) {
+      .search-wrapper { display: none !important; }
+      .hero-caption h1 { font-size: 2.5rem; }
+      .hero-caption p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="Project.html">
+      <img src="https://i.ibb.co/99BQDk4r/v-leaf-logo.jpg" 
+           alt="VENDOR.COM Logo" 
+           width="40" height="40" 
+           class="me-2 rounded-circle">
+      VENDOR.COM
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Always Expanded Search Bar with Mic on Right -->
+      <div class="search-wrapper mx-auto d-none d-lg-block">
+        <div class="search-bar position-relative">
+          <i class="bi bi-search"></i>
+          <input type="text"
+                 id="searchInput"
+                 class="form-control"
+                 placeholder="Search fresh products..."
+                 autocomplete="off">
+          
+          <!-- Voice Mic at the Right End -->
+          <button id="voiceBtn" type="button" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); border:none; background:none;">
+            <i class="bi bi-mic-fill"></i>
+          </button>
+
+          <ul class="search-dropdown list-group position-absolute top-100 start-0 w-100 mt-1"
+              style="display:none;">
+          </ul>
+        </div>
+      </div>
+
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="Project.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#why">Why Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+
+        <li class="nav-item ms-3">
+          <a href="register.html" class="btn btn-outline-light btn-sm px-4 py-2 fw-medium border-2">Register</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a href="login.html" class="btn btn-light text-success fw-bold btn-sm px-4 py-2 shadow-sm">Log In</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO CAROUSEL -->
+<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=1600&q=80" alt="Fresh Veggies" loading="lazy">
+      <div class="hero-caption">
+        <h1>Farm-Fresh, Delivered</h1>
+        <p>Organic produce straight from local farmers to your table</p>
+        <a href="shop.html" class="btn btn-cta mt-3">Shop Now</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://media.istockphoto.com/id/173255460/photo/assortment-of-fruits.webp?a=1&b=1&s=612x612&w=0&k=20&c=DPS1jEN2ODwEpaGINQPcjR-2AFrbg0QtpZ10Patkleo=" alt="Fruits" loading="lazy">
+      <div class="hero-caption">
+        <h1>Juicy Organic Fruits</h1>
+        <p>Hand-picked at peak ripeness</p>
+        <a href="#featured" class="btn btn-cta mt-3">Explore Fruits</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://media.istockphoto.com/id/910881428/photo/dairy-products-shot-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=e5NdGZlZzrBdQuUUccOIwmPAW0S2x6W-_csUMGw4zn0=" alt="Dairy" loading="lazy">
+      <div class="hero-caption">
+        <h1>Fresh Dairy & More</h1>
+        <p>Milk, cheese, yogurt – all natural</p>
+        <a href="#featured" class="btn btn-cta mt-3">View Dairy</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- ABOUT US -->
+<section id="about">
+  <div class="about-glass">
+    <h2>About Us</h2>
+    <p>
+      Local Farmer Market is not just an online store — it’s a <strong>mission</strong>.  
+      We partner with small-scale farmers across the region, giving them a fair platform to sell directly to you.  
+      By shopping here you support hardworking families, healthier communities, and sustainable agriculture.
+    </p>
+  </div>
+</section>
+
+<!-- MEET OUR FARMERS - Dynamic Ready -->
+<section id="featured" class="py-5 fade-up">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Meet Our Farmers</h2>
+      <p class="text-muted">Real people, real passion, real freshness.</p>
+    </div>
+
+    <div class="row g-4 mb-5" id="farmersContainer">
+      <!-- Farmers will be loaded here dynamically -->
+    </div>
+
+    <div class="bg-light rounded-4 p-4 p-md-5 text-center">
+      <h3 class="fw-bold mb-3">Fresh Deals – Today Only!</h3>
+      <div class="row g-3 justify-content-center">
+        <div class="col-md-3 col-6">
+          <div class="deal-card p-3 rounded-3 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1618864138281-02a9fb66deb7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoZXJyeSUyMHRvbWF0b2VzfGVufDB8fDB8fHww" class="img-fluid rounded mb-2" style="height:80px;object-fit:cover;">
+            <p class="small mb-1 fw-bold">Cherry Tomatoes</p>
+            <p class="price text-danger fw-bold mb-0" data-usd="1.99">$1.99 <small><del>$3.99</del></small></p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="deal-card p-3 rounded-3 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1439127989242-c3749a012eac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVkJTIwYXBwbGVzfGVufDB8fDB8fHww" class="img-fluid rounded mb-2" style="height:80px;object-fit:cover;">
+            <p class="small mb-1 fw-bold">Red Apples</p>
+            <p class="price text-danger fw-bold mb-0" data-usd="2.49">$2.49 <small><del>$4.99</del></small></p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6 d-md-block d-none">
+          <div class="deal-card p-3 rounded-3 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1585083969600-495ee7e3604b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGZhcm0lMjBtaWxrJTIwaW4lMjBib3R0ZWxlfGVufDB8fDB8fHww" class="img-fluid rounded mb-2" style="height:80px;object-fit:cover;">
+            <p class="small mb-1 fw-bold">Farm Milk (1 L)</p>
+            <p class="price text-danger fw-bold mb-0" data-usd="1.89">$1.89 <small><del>$2.99</del></small></p>
+          </div>
+        </div>
+      </div>
+      <a href="categories.html" class="btn btn-success mt-4 px-5">Shop All Deals</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="why" class="bg-light py-5 fade-up">
+  <div class="container">
+    <h2 class="text-center mb-5">Why Choose Vendor?</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-shield-check fs-1 text-success mb-3"></i>
+          <h4>100% Organic</h4>
+          <p>No pesticides, no GMOs – certified pure.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-people fs-1 text-success mb-3"></i>
+          <h4>Support Farmers</h4>
+          <p>We work directly with local farmers to empower their livelihood.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-currency-dollar fs-1 text-success mb-3"></i>
+          <h4>Affordable Pricing</h4>
+          <p>Cut the middleman – best prices possible.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-truck fs-1 text-success mb-3"></i>
+          <h4>Fast Delivery</h4>
+          <p>Fresh to your doorstep on time.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-recycle fs-1 text-success mb-3"></i>
+          <h4>Eco-Friendly Packaging</h4>
+          <p>Recyclable & biodegradable materials.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature text-center p-4">
+          <i class="bi bi-clock-history fs-1 text-success mb-3"></i>
+          <h4>Farm Fresh Guarantee</h4>
+          <p>Picked the day of delivery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-5 fade-up">
+  <div class="container">
+    <h2 class="text-center mb-5">What Our Customers Say</h2>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="testimonial-card mx-auto" style="max-width:500px;">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah">
+              <div class="ms-3">
+                <h6 class="mb-0">Sarah K.</h6>
+                <small class="text-muted">Verified Buyer</small>
+              </div>
+            </div>
+            <p>“The freshest veggies I’ve ever had – delivered same day!”</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="testimonial-card mx-auto" style="max-width:500px;">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Mike">
+              <div class="ms-3">
+                <h6 class="mb-0">Mike R.</h6>
+                <small class="text-muted">Verified Buyer</small>
+              </div>
+            </div>
+            <p>“Love supporting local farmers and the prices are unbeatable.”</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="testimonial-card mx-auto" style="max-width:500px;">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Lisa">
+              <div class="ms-3">
+                <h6 class="mb-0">Lisa T.</h6>
+                <small class="text-muted">Verified Buyer</small>
+              </div>
+            </div>
+            <p>“My kids actually eat the veggies now – they taste so good!”</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter py-5 text-center">
+  <div class="container">
+    <h3 class="mb-3">Stay Fresh – Get Exclusive Deals</h3>
+    <form class="d-inline-flex mt-3" onsubmit="event.preventDefault(); alert('Subscribed!');">
+      <input type="email" placeholder="Your email" class="me-2 form-control" required>
+      <button type="submit" class="btn btn-light">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FAB -->
+<a href="#" class="fab position-fixed bottom-0 end-0 m-4" id="addProductBtn">
+  <i class="bi bi-plus"></i>
+</a>
+
+<!-- CATEGORY MODAL -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Select Category</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <select id="categorySelect" class="form-select">
+          <option value="">-- Choose Category --</option>
+          <option value="Fresh Vegetables">Fresh Vegetables</option>
+          <option value="Organic Fruits">Organic Fruits</option>
+          <option value="Rice & Grains">Rice & Grains</option>
+          <option value="Dairy Products">Dairy Products</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button id="goSell" class="btn btn-success w-100">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-dark text-white py-4 text-center">
+  <p>© 2025 VendorFarmers • vendorfarmers@gmail.com • 123-456-7890</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Dynamic Farmers (Will be updated when farmers complete their profile)
+  let farmers = [
+    {
+      name: "Rajesh Patel",
+      location: "Gujarat • 12 yrs",
+      rating: "4.8",
+      description: "Organic tomatoes grown with love – no chemicals, just sunlight and care."
+    },
+    {
+      name: "Sunita Devi",
+      location: "Punjab • 8 yrs",
+      rating: "4.9",
+      description: "Family-grown wheat for generations – now on your table."
+    },
+    {
+      name: "Arjun Singh",
+      location: "Himachal • 15 yrs",
+      rating: "5.0",
+      description: "Dawn-picked apples – the sweetest you’ll ever taste."
+    }
+  ];
+
+  function renderFarmers() {
+    const container = document.getElementById('farmersContainer');
+    container.innerHTML = '';
+    farmers.forEach(farmer => {
+      const html = `
+        <div class="col-md-4">
+          <div class="farmer-card rounded-3 shadow-sm p-4 text-center h-100">
+            <h6 class="fw-bold">${farmer.name}</h6>
+            <small class="text-success">${farmer.location}</small>
+            <div class="rating mt-1">
+              ${farmer.rating} <i class="bi bi-star-fill"></i>
+            </div>
+            <p class="small mt-2">${farmer.description}</p>
+            <a href="#" class="btn btn-sm btn-outline-success mt-2">See Produce</a>
+          </div>
+        </div>
+      `;
+      container.innerHTML += html;
+    });
+  }
+
+  // Voice Search
+  document.getElementById('voiceBtn').addEventListener('click', () => {
+    if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+      alert("Voice search is not supported in this browser.");
+      return;
+    }
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-IN';
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      document.getElementById('searchInput').value = event.results[0][0].transcript;
+    };
+  });
+
+  // Scroll Animations
+  const aboutGlass = document.querySelector('.about-glass');
+  const observer = new IntersectionObserver(e => e.forEach(i => {
+    if (i.isIntersecting) i.target.classList.add('visible');
+  }), { threshold: .3 });
+  observer.observe(aboutGlass);
+
+  const fades = document.querySelectorAll('.fade-up');
+  const fadeObs = new IntersectionObserver(e => e.forEach(i => {
+    if (i.isIntersecting) i.target.classList.add('visible');
+  }), { threshold: .1 });
+  fades.forEach(el => fadeObs.observe(el));
+
+  // FAB Modal
+  document.getElementById('addProductBtn').addEventListener('click', e => {
+    e.preventDefault();
+    new bootstrap.Modal(document.getElementById('categoryModal')).show();
+  });
+
+  document.getElementById('goSell').addEventListener('click', () => {
+    const cat = document.getElementById('categorySelect').value;
+    if (cat) location.href = `sell.html?category=${encodeURIComponent(cat)}`;
+    else alert('Please select a category');
+  });
+
+  // Initialize Farmers on Load
+  window.onload = renderFarmers;
+</script>
+</body>
+</html>

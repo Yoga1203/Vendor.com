@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sell Your Product</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #eaf4ec, #d2e6d7);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  background: #4CAF50 !important;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: white !important;
+}
+.navbar-brand span {
+  font-size: 0.8rem;
+  display: block;
+  font-weight: normal;
+  font-style: italic;
+}
+.navbar-nav .nav-link {
+  color: white !important;
+  font-weight: 500;
+  margin: 0 5px;
+  position: relative;
+}
+.navbar-nav .nav-link:hover::after, .navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: white;
+}
+.search-box {
+  border-radius: 20px;
+  border: none;
+  padding: 5px 12px;
+}
+.cart-icon {
+  position: relative;
+  color: white;
+  font-size: 1.4rem;
+}
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+.sell-btn {
+  background: white;
+  color: #4CAF50;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 5px 15px !important;
+  margin-left: 10px;
+}
+.sell-btn:hover {
+  background: #f1f1f1;
+  color: #388e3c;
+}
+.form-container {
+  background: rgba(255, 255, 255, 0.95);
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.section-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #388e3c;
+}
+.image-preview {
+  display: none;
+  margin-top: 15px;
+  text-align: center;
+}
+.image-preview img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 10px;
+  border: 2px solid #c8e6c9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+button {
+  background: #4CAF50;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: bold;
+  color: white;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  background: #43a047;
+  transform: scale(1.02);
+}
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      VENDOR.Com
+      <span>Fresh from Farmers to You</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="Project.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="vegetables.html">Vegetables</a></li>
+        <li class="nav-item"><a class="nav-link active" href="sell.html">Sell Product</a></li>
+      </ul>
+      <form class="d-flex me-3">
+        <input class="form-control search-box" type="search" placeholder="Search..." aria-label="Search">
+      </form>
+      <a href="cart.html" class="cart-icon me-3">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+      <a href="sell.html" class="btn sell-btn">+ Sell</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Sell Form -->
+<div class="form-container">
+  <h3>📦 Product Submission Form</h3>
+  <form id="sellForm">
+    <div class="section-title">Product Details</div>
+    <input type="text" class="form-control mb-3" id="productName" placeholder="Product Name" required>
+    <input type="number" class="form-control mb-3" id="price" placeholder="Price per kg" required>
+    <input type="number" class="form-control mb-3" id="stock" placeholder="Stock Quantity (kg)" required>
+    
+    <div class="section-title">Farmer Information</div>
+    <input type="text" class="form-control mb-3" id="farmer" placeholder="Farmer Name" required>
+    <input type="text" class="form-control mb-3" id="location" placeholder="Location" required>
+
+    <div class="section-title">Category & Method</div>
+    <select id="category" class="form-control mb-3" required>
+      <option value="">Select Category</option>
+      <option value="Leafy Greens">🥬 Leafy Greens</option>
+      <option value="Root Vegetables">🥕 Root Vegetables</option>
+      <option value="Organic Specials">🍅 Organic Specials</option>
+      <option value="Seasonal Picks">🍆 Seasonal Picks</option>
+    </select>
+
+    <select id="farmingMethod" class="form-control mb-3" required>
+      <option value="">Select Farming Method</option>
+      <option value="Organic">Organic</option>
+      <option value="Hydroponic">Hydroponic</option>
+      <option value="Conventional">Conventional</option>
+    </select>
+
+    <div class="section-title">Harvest & Delivery</div>
+    <input type="date" id="harvestDate" class="form-control mb-3" required>
+    <input type="number" id="deliveryDays" class="form-control mb-3" placeholder="Expected Delivery Days" required>
+
+    <div class="section-title">Description</div>
+    <textarea id="description" class="form-control mb-3" rows="3" placeholder="Short description about the product..." required></textarea>
+
+    <div class="section-title">Product Image</div>
+    <input type="file" id="productImage" class="form-control mb-2" accept="image/*" required>
+    <div class="image-preview" id="imagePreview">
+      <p><strong>Preview:</strong></p>
+      <img id="previewImg" src="" alt="Product Preview">
+    </div>
+
+    <button type="submit" class="mt-3">✅ Submit Product</button>
+  </form>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>Contact us: vendorfarmers@gmail.com | Phone: 1234567890</p>
+</footer>
+
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Image Preview
+  const imageInput = document.getElementById("productImage");
+  const imagePreview = document.getElementById("imagePreview");
+  const previewImg = document.getElementById("previewImg");
+
+  imageInput.addEventListener("change", function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+        imagePreview.style.display = "block";
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Sell Form Submission
+  document.getElementById("sellForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const file = imageInput.files[0];
+    if (!file) {
+      alert("Please upload a product image.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const newProduct = {
+        name: document.getElementById("productName").value,
+        price: parseFloat(document.getElementById("price").value),
+        stock: parseFloat(document.getElementById("stock").value),
+        farmer: document.getElementById("farmer").value,
+        location: document.getElementById("location").value,
+        category: document.getElementById("category").value,
+        farmingMethod: document.getElementById("farmingMethod").value,
+        harvestDate: document.getElementById("harvestDate").value,
+        deliveryDays: parseInt(document.getElementById("deliveryDays").value),
+        description: document.getElementById("description").value,
+        img: event.target.result,
+        rating: 0,
+        sales: 0
+      };
+
+      let farmerProducts = JSON.parse(localStorage.getItem("farmerProducts")) || [];
+      farmerProducts.push(newProduct);
+      localStorage.setItem("farmerProducts", JSON.stringify(farmerProducts));
+
+      let farmerCount = parseInt(localStorage.getItem("farmerCount") || "0") + 1;
+      let productCount = parseInt(localStorage.getItem("productCount") || "0") + 1;
+      localStorage.setItem("farmerCount", farmerCount.toString());
+      localStorage.setItem("productCount", productCount.toString());
+
+      alert("✅ Product added successfully!");
+      window.location.href = "vegetables.html";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Cart Count Demo
+  document.getElementById("cartCount").textContent = localStorage.getItem("cartCount") || 0;
+</script>
+
+</body>
+</html>

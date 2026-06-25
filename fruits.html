@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VENDOR - Fruits</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f8fff8;
+}
+nav {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px;
+}
+.controls input, .controls select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.filters {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.filters button {
+  background: #e8f5e9;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.filters button:hover {
+  background: #4CAF50;
+  color: white;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.product-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.product-card:hover img {
+  transform: scale(1.05);
+}
+.ribbon {
+  position: absolute;
+  top: 10px;
+  left: -5px;
+  background: orange;
+  color: white;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transform: rotate(-10deg);
+}
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+}
+.wishlist-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.wishlist-btn.active {
+  color: red;
+}
+.product-info {
+  padding: 15px;
+  text-align: center;
+}
+.farmer-badge {
+  font-size: 0.85rem;
+  background: #f1f8e9;
+  padding: 4px 8px;
+  border-radius: 15px;
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #2e7d32;
+  cursor: pointer;
+}
+.sales-count {
+  font-size: 0.8rem;
+  color: #777;
+}
+.price {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><strong>VENDOR.Com</strong></div>
+  <ul>
+    <li><a href="Project.html">Home</a></li>
+    <li><a href="#">Categories</a></li>
+    <li><a href="wishlist.html">Wishlist ❤️</a></li>
+    <li><a href="#">Cart</a></li>
+  </ul>
+</nav>
+
+<div class="controls">
+  <input type="text" id="searchInput" placeholder="Search fruits...">
+  <select id="sortSelect">
+    <option value="">Sort By</option>
+    <option value="low">Price: Low to High</option>
+    <option value="high">Price: High to Low</option>
+    <option value="best">Best Selling</option>
+  </select>
+</div>
+
+<div class="filters">
+  <button onclick="filterCategory('all')">All</button>
+  <button onclick="filterCategory('Citrus')">🍊 Citrus</button>
+  <button onclick="filterCategory('Tropical')">🥭 Tropical</button>
+  <button onclick="filterCategory('Berries')">🍇 Berries</button>
+  <button onclick="filterCategory('Temperate')">🍎 Temperate</button>
+</div>
+
+<section class="products" id="productList"></section>
+
+<footer>
+  <p>Contact us: vendorfarmers@gmail.com</p>
+</footer>
+
+<script>
+const defaultProducts = [
+  {name: "Apple", category: "Temperate", price: 50, img: "Screenshot 2025-06-26 at 11.11.08 PM.png", farmer: "Rajesh", location: "Himachal Pradesh", sales: 25, stock: 20, discount: 0, seasonal: false},
+  {name: "Mango", category: "Tropical", price: 40, img: "Screenshot 2025-06-26 at 11.11.57 PM.png", farmer: "Kavitha", location: "Andhra Pradesh", sales: 35, stock: 10, discount: 10, seasonal: true},
+  {name: "Guava", category: "Tropical", price: 30, img: "Screenshot 2025-06-26 at 11.12.35 PM.png", farmer: "Suresh", location: "Tamil Nadu", sales: 28, stock: 15, discount: 0, seasonal: false},
+  {name: "Banana", category: "Tropical", price: 45, img: "Screenshot 2025-06-26 at 11.13.55 PM.png", farmer: "Anita", location: "Kerala", sales: 40, stock: 5, discount: 15, seasonal: false},
+  {name: "Orange", category: "Citrus", price: 40, img: "Screenshot 2025-06-26 at 11.13.12 PM.png", farmer: "Manoj", location: "Nagpur", sales: 22, stock: 25, discount: 5, seasonal: true},
+  {name: "Grapes", category: "Berries", price: 30, img: "Screenshot 2025-06-26 at 11.15.30 PM.png", farmer: "Vinod", location: "Nashik", sales: 33, stock: 8, discount: 0, seasonal: false}
+];
+
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function loadProducts(productsToShow = defaultProducts) {
+  const container = document.getElementById("productList");
+  container.innerHTML = "";
+
+  productsToShow.forEach((p) => {
+    let discountHTML = p.discount > 0 ? `<div class="discount-badge">${p.discount}% OFF</div>` : "";
+    let seasonalHTML = p.seasonal ? `<div class="ribbon">Season Special</div>` : "";
+    let wishlistActive = wishlist.find(item => item.name === p.name) ? "active" : "";
+
+    container.innerHTML += `
+      <div class="product-card">
+        ${seasonalHTML}
+        ${discountHTML}
+        <img src="${p.img}" alt="${p.name}">
+        <button class="wishlist-btn ${wishlistActive}" onclick="toggleWishlist('${p.name}')">❤️</button>
+        <div class="product-info">
+          <div class="farmer-badge" onclick="alert('Farmer: ${p.farmer}\\nLocation: ${p.location}')">👩‍🌾 ${p.farmer}</div>
+          <div class="sales-count">${p.stock > 5 ? "✅ In Stock" : "⚠ Only " + p.stock + " left!"}</div>
+          <h5>${p.name}</h5>
+          <div class="price">₹${p.price}/kg</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function toggleWishlist(productName) {
+  const product = defaultProducts.find(p => p.name === productName);
+  const index = wishlist.findIndex(item => item.name === productName);
+  if (index > -1) {
+    wishlist.splice(index, 1);
+  } else {
+    wishlist.push(product);
+  }
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  loadProducts();
+}
+
+function filterCategory(cat) {
+  if (cat === "all") {
+    loadProducts();
+  } else {
+    loadProducts(defaultProducts.filter(p => p.category === cat));
+  }
+}
+
+document.getElementById("searchInput").addEventListener("input", function() {
+  const filter = this.value.toLowerCase();
+  loadProducts(defaultProducts.filter(p => p.name.toLowerCase().includes(filter)));
+});
+
+document.getElementById("sortSelect").addEventListener("change", function() {
+  let sorted = [...defaultProducts];
+  if (this.value === "low") sorted.sort((a,b) => a.price - b.price);
+  if (this.value === "high") sorted.sort((a,b) => b.price - a.price);
+  if (this.value === "best") sorted.sort((a,b) => b.sales - a.sales);
+  loadProducts(sorted);
+});
+
+loadProducts();
+</script>
+
+</body>
+</html>

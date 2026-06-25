@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Categories - VENDOR.COM</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="icon" href="https://i.ibb.co/99BQDk4r/v-leaf-logo.jpg" type="image/jpeg">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f1f8f4, #e0f7e9);
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      background: linear-gradient(90deg, #4CAF50, #45a049);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-left { display: flex; align-items: center; }
+    .nav-right ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-right ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .nav-right ul li a.active,
+    .nav-right ul li a:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+                  url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+      margin-bottom: 40px;
+    }
+    .hero h1 { font-size: 2.8rem; font-weight: bold; margin-bottom: 15px; }
+    .hero p { font-size: 1.25rem; max-width: 800px; margin: 0 auto; }
+
+    .filters-bar {
+      background: white;
+      padding: 18px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin: 30px auto;
+      max-width: 1200px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .category-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.12);
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .wishlist {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    .wishlist.active { color: #e74c3c; transform: scale(1.1); }
+
+    .trending-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #ff9800;
+      color: white;
+      font-size: 0.8rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      z-index: 5;
+    }
+
+    .stock-badge {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: #4CAF50;
+      color: white;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-body h3 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .rating { color: gold; font-size: 1.25rem; }
+
+    .quick-view-btn {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .shop-btn, .add-cart-btn {
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .shop-btn {
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+    }
+
+    .add-cart-btn {
+      background: #ff9800;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .add-cart-btn:hover { background: #f57c00; }
+
+    /* Floating WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #25D366;
+      color: white;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+      z-index: 999;
+      transition: all 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.12);
+      background: #128C7E;
+    }
+
+    /* Back to Top */
+    .back-to-top {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      background: #4CAF50;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 998;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 35px 20px;
+      margin-top: 90px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      padding: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .category-grid { grid-template-columns: 1fr; }
+      .filters-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-left">
+    <a class="d-flex align-items-center text-white fw-bold" href="Project.html">
+      <img src="https://i.ibb.co/99BQDk4r/v-leaf-logo.jpg" alt="Logo" width="42" height="42" class="me-2 rounded-circle">
+      VENDOR.COM
+    </a>
+  </div>
+  <div class="nav-right">
+    <ul>
+      <li><a href="Project.html">Home</a></li>
+      <li><a href="categories.html" class="active">Categories</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="#">Orders</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero Banner -->
+<div class="hero">
+  <h1>🌍 Fresh Produce from Farmers Worldwide</h1>
+  <p>Connecting farmers across the globe • Direct from farm to your table • No middlemen</p>
+</div>
+
+<!-- Filters -->
+<div class="container">
+  <div class="filters-bar d-flex flex-wrap justify-content-center align-items-center gap-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search categories..." style="max-width: 280px;">
+
+    <select id="sortSelect" class="form-select" style="max-width: 180px;">
+      <option value="default">Sort: Relevance</option>
+      <option value="rating">Highest Rated</option>
+      <option value="name">A to Z</option>
+    </select>
+
+    <select id="priceFilter" class="form-select" style="max-width: 180px;">
+      <option value="all">All Prices</option>
+      <option value="low">Under ₹500</option>
+      <option value="medium">₹500 – ₹1500</option>
+      <option value="high">Above ₹1500</option>
+    </select>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="organicFilter">
+      <label class="form-check-label" for="organicFilter">Only Organic</label>
+    </div>
+  </div>
+</div>
+
+<!-- Categories Section -->
+<div class="container">
+  <h2 class="text-center mb-5" style="color:#2e7d32; font-weight:bold;">🌿 Explore Categories</h2>
+
+  <div class="category-grid" id="categoryGrid"></div>
+
+  <div class="text-center mt-5">
+    <button id="loadMoreBtn" class="btn btn-success px-5 py-2">Load More Categories</button>
+  </div>
+</div>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/1234567890" target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+  💬
+</a>
+
+<!-- Back to Top -->
+<div id="backToTop" class="back-to-top">↑</div>
+
+<!-- Quick View Modal -->
+<div id="quickViewModal" class="modal">
+  <div class="modal-content">
+    <h4 id="modalTitle" class="mb-3"></h4>
+    <img id="modalImage" style="width:100%; border-radius:12px; margin-bottom:15px;" alt="">
+    <p id="modalDesc" class="text-muted"></p>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      <button class="btn btn-success" onclick="addToCartFromModal()">Add Sample Pack</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 VENDOR.COM • Connecting Farmers Worldwide • vendorfarmers@gmail.com • 123-456-7890</p>
+  <p class="mt-2">🌍 Open platform for all farmers to sell their fresh produce directly</p>
+</footer>
+
+<script>
+// 10 Categories Data
+let allCategories = [
+  { id: 1, name: "vegetables", title: "🥦 Fresh Vegetables", img: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=1170&auto=format&fit=crop", organic: true, rating: 4.5, products: 42, trending: true, priceLevel: "low" },
+  { id: 2, name: "fruits", title: "🍎 Organic Fruits", img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?q=80&w=1170&auto=format&fit=crop", organic: true, rating: 5, products: 28, trending: false, priceLevel: "medium" },
+  { id: 3, name: "grains", title: "🌾 Rice & Grains", img: "https://images.unsplash.com/photo-1723879683304-599f00775e7b?w=1170&auto=format&fit=crop", organic: false, rating: 4, products: 15, trending: true, priceLevel: "low" },
+  { id: 4, name: "dairy", title: "🥛 Dairy Products", img: "https://images.unsplash.com/photo-1630409346699-79481a79db52?w=1170&auto=format&fit=crop", organic: true, rating: 5, products: 22, trending: false, priceLevel: "medium" },
+  { id: 5, name: "spices", title: "🌶️ Spices & Herbs", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=1170&auto=format&fit=crop", organic: true, rating: 4.8, products: 35, trending: true, priceLevel: "medium" },
+  { id: 6, name: "nuts", title: "🥜 Nuts & Dry Fruits", img: "https://images.unsplash.com/photo-1543158181-1274e5362710?w=500&auto=format&fit=crop", organic: true, rating: 4.7, products: 18, trending: false, priceLevel: "high" },
+  { id: 7, name: "honey", title: "🍯 Honey & Jaggery", img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=1170&auto=format&fit=crop", organic: true, rating: 5, products: 12, trending: true, priceLevel: "medium" },
+  { id: 8, name: "oils", title: "🛢️ Organic Oils & Ghee", img: "https://images.unsplash.com/photo-1573812461383-e5f8b759d12e?w=500&auto=format&fit=crop", organic: true, rating: 4.6, products: 14, trending: false, priceLevel: "high" },
+  { id: 9, name: "flowers", title: "🌸 Fresh Flowers & Leaves", img: "https://images.unsplash.com/photo-1530906622963-8a60586a49c7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGZsb3dlcnMlMjBhbmQlMjBsZWFmc3xlbnwwfHwwfHx8MA%3D%3D", organic: true, rating: 4.3, products: 8, trending: false, priceLevel: "low" },
+  { id: 10, name: "eggs", title: "🥚 Poultry & Eggs", img: "https://images.unsplash.com/photo-1737099965905-f05790673f23?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHBvdWx0cnklMjBhbmQlMjBlZ2dzfGVufDB8fDB8fHww", organic: false, rating: 4.9, products: 11, trending: true, priceLevel: "medium" }
+];
+
+let displayedCount = 8;
+const cardsPerLoad = 4;
+
+function renderCards(categories) {
+  const grid = document.getElementById("categoryGrid");
+  grid.innerHTML = "";
+
+  categories.forEach(cat => {
+    const cardHTML = `
+      <div class="category-card" data-name="${cat.name}" data-organic="${cat.organic}" data-rating="${cat.rating}" data-price="${cat.priceLevel}">
+        ${cat.trending ? `<div class="trending-badge">Trending 🔥</div>` : ''}
+        <img src="${cat.img}" alt="${cat.title}">
+        <button class="wishlist" data-id="${cat.id}">♡</button>
+        <span class="stock-badge">In Stock</span>
+        
+        <div class="card-body">
+          <h3>${cat.title}</h3>
+          <div class="trust-badges">
+            <span class="badge">${cat.organic ? 'Organic' : 'Natural'}</span>
+            <span class="badge">Farm Verified</span>
+          </div>
+          <div class="rating">⭐${cat.rating} <small>(${Math.floor(Math.random()*300)+100})</small></div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="fw-bold text-success">${cat.products} Products</span>
+            <a href="#" class="shop-btn">Shop Now</a>
+          </div>
+          <button class="add-cart-btn w-100 mt-2">Add Sample Pack</button>
+          <button class="quick-view-btn" onclick="showQuickView(${cat.id})">Quick View</button>
+        </div>
+      </div>
+    `;
+    grid.innerHTML += cardHTML;
+  });
+
+  // Wishlist
+  document.querySelectorAll(".wishlist").forEach(btn => {
+    const id = btn.getAttribute("data-id");
+    if (localStorage.getItem(`wishlist_${id}`) === "true") {
+      btn.classList.add("active");
+      btn.innerHTML = "♥";
+    }
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const active = btn.classList.toggle("active");
+      btn.innerHTML = active ? "♥" : "♡";
+      localStorage.setItem(`wishlist_${id}`, active);
+    });
+  });
+}
+
+// Quick View Modal
+let currentCategory = null;
+
+function showQuickView(id) {
+  currentCategory = allCategories.find(c => c.id === id);
+  if (!currentCategory) return;
+
+  document.getElementById("modalTitle").textContent = currentCategory.title;
+  document.getElementById("modalImage").src = currentCategory.img;
+  document.getElementById("modalDesc").innerHTML = `
+    <strong>Rating:</strong> ⭐${currentCategory.rating}<br>
+    <strong>Products Available:</strong> ${currentCategory.products}<br><br>
+    Freshly sourced from farmers around the world. 100% natural and high quality.
+  `;
+  document.getElementById("quickViewModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("quickViewModal").style.display = "none";
+}
+
+function addToCartFromModal() {
+  alert("✅ Sample pack added to cart! (Demo)");
+  closeModal();
+}
+
+// Filter & Render Logic
+function filterCards() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
+  const sortBy = document.getElementById("sortSelect").value;
+  const priceFilter = document.getElementById("priceFilter").value;
+  const onlyOrganic = document.getElementById("organicFilter").checked;
+
+  let filtered = allCategories.filter(cat => {
+    const matchesSearch = cat.name.includes(searchTerm) || cat.title.toLowerCase().includes(searchTerm);
+    const matchesOrganic = !onlyOrganic || cat.organic;
+    const matchesPrice = priceFilter === "all" || cat.priceLevel === priceFilter;
+    return matchesSearch && matchesOrganic && matchesPrice;
+  });
+
+  if (sortBy === "rating") filtered.sort((a,b) => b.rating - a.rating);
+  else if (sortBy === "name") filtered.sort((a,b) => a.title.localeCompare(b.title));
+
+  renderCards(filtered.slice(0, displayedCount));
+}
+
+// Load More
+document.getElementById("loadMoreBtn").addEventListener("click", () => {
+  displayedCount += cardsPerLoad;
+  if (displayedCount >= allCategories.length) {
+    document.getElementById("loadMoreBtn").style.display = "none";
+  }
+  filterCards();
+});
+
+// Event Listeners
+document.getElementById("searchInput").addEventListener("input", filterCards);
+document.getElementById("sortSelect").addEventListener("change", filterCards);
+document.getElementById("priceFilter").addEventListener("change", filterCards);
+document.getElementById("organicFilter").addEventListener("change", filterCards);
+
+// Add to Cart
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("add-cart-btn")) {
+    alert("✅ Sample pack added to cart! (Demo)");
+  }
+});
+
+// Back to Top
+const backToTop = document.getElementById("backToTop");
+window.addEventListener("scroll", () => {
+  backToTop.style.display = window.scrollY > 400 ? "flex" : "none";
+});
+backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+// Close modal when clicking outside
+document.getElementById("quickViewModal").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Initial Render
+renderCards(allCategories.slice(0, displayedCount));
+</script>
+
+</body>
+</html>

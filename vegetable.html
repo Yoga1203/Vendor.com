@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VENDOR - Vegetables</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f8fff8;
+}
+
+/* NAVIGATION */
+nav {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* HERO BANNER */
+.hero {
+  background: url('/Users/msc/Desktop/html classwork programs/Screenshot 2025-06-22 at 9.06.41 PM.png') center/cover no-repeat;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* CATEGORY TAGS */
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 15px;
+}
+.category-tag {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.category-tag:hover, .category-tag.active {
+  background: #4CAF50;
+  color: white;
+}
+
+/* SEARCH & SORT */
+.top-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px;
+  flex-wrap: wrap;
+}
+.top-controls input, .top-controls select {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* PRODUCTS GRID */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.product-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 280px;
+  margin: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+.product-card img:hover {
+  transform: scale(1.05);
+}
+.product-info {
+  padding: 15px;
+  text-align: center;
+}
+.price {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.stars {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #ccc;
+}
+.stars .selected {
+  color: gold;
+}
+.quantity {
+  width: 70px;
+  margin: 5px 0;
+  border-radius: 5px;
+  padding: 3px;
+  border: 1px solid #ccc;
+}
+.total-price {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+.add-cart-btn {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.add-cart-btn:hover {
+  background: #388e3c;
+}
+.farmer-badge {
+  font-size: 0.85rem;
+  background: #f1f8e9;
+  padding: 4px 8px;
+  border-radius: 15px;
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #2e7d32;
+}
+.verified {
+  color: #4CAF50;
+  font-weight: bold;
+}
+.sales-count {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 5px;
+}
+.top-farmer {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: gold;
+  color: black;
+  padding: 3px 6px;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* FARMER SPOTLIGHT */
+.spotlight {
+  background: #fff8e1;
+  padding: 25px;
+  text-align: center;
+  border: 2px solid gold;
+  border-radius: 12px;
+  margin: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.spotlight h4 {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #b8860b;
+  font-size: 1.3rem;
+}
+.spotlight-badge {
+  background: gold;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.spotlight p {
+  max-width: 500px;
+  margin: auto;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* STATS SECTION */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+.stat {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.stat h3 {
+  color: #4CAF50;
+  margin: 0;
+}
+
+/* ADD BUTTON */
+.add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* FOOTER */
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="logo"><strong>VENDOR.Com</strong></div>
+  <ul>
+    <li><a href="Project.html">Home</a></li>
+    <li><a href="#">Categories</a></li>
+    <li><a href="#">Cart</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">Fresh Vegetables Direct from Farmers 🥬🥕</div>
+
+<!-- CATEGORY TAGS -->
+<div class="categories">
+  <div class="category-tag active" data-category="all">Show All</div>
+  <div class="category-tag" data-category="Leafy Greens">🥬 Leafy Greens</div>
+  <div class="category-tag" data-category="Root Vegetables">🥕 Root Vegetables</div>
+  <div class="category-tag" data-category="Organic Specials">🍅 Organic Specials</div>
+  <div class="category-tag" data-category="Seasonal Picks">🍆 Seasonal Picks</div>
+</div>
+
+<!-- SEARCH & SORT -->
+<div class="top-controls">
+  <input type="text" id="searchInput" placeholder="Search vegetables...">
+  <select id="sortSelect">
+    <option value="">Sort By</option>
+    <option value="low">Price: Low to High</option>
+    <option value="high">Price: High to Low</option>
+  </select>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="productList"></section>
+<p id="noResults" style="text-align:center; color:#888; display:none;">No products found</p>
+
+<!-- FARMER SPOTLIGHT -->
+<div class="spotlight">
+  <div class="spotlight-badge">🏆 Farmer of the Week</div>
+  <h4>Kavitha</h4>
+  <p>Kavitha from Kerala has been supplying fresh organic vegetables for over 15 years. Her dedication to sustainable farming has earned her the trust of hundreds of customers.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><h3 id="farmerCount">0</h3><p>Farmers Registered</p></div>
+  <div class="stat"><h3 id="productCount">0</h3><p>Products Listed</p></div>
+  <div class="stat"><h3 id="orderCount">0</h3><p>Orders Completed</p></div>
+</div>
+
+<!-- ADD PRODUCT BUTTON -->
+<a href="sell.html">
+  <button class="add-btn">+</button>
+</a>
+
+<!-- FOOTER -->
+<footer>
+  <p>Contact us: vendorfarmers@gmail.com | Phone: 1234567890</p>
+</footer>
+
+<script>
+const defaultProducts = [
+  {name: "Organic Tomatoes", price: 50, img: "Screenshot 2025-06-26 at 10.29.23 PM.png", farmer: "Ramesh", location: "Tamil Nadu", rating: 0, sales: 32, category: "Organic Specials"},
+  {name: "Fresh Carrots", price: 40, img: "Screenshot 2025-06-26 at 10.32.39 PM.png", farmer: "Kavitha", location: "Kerala", rating: 0, sales: 48, category: "Root Vegetables"},
+  {name: "Onion", price: 30, img: "Screenshot 2025-06-26 at 10.35.04 PM.png", farmer: "Suresh", location: "Karnataka", rating: 0, sales: 25, category: "Root Vegetables"}
+];
+
+let allProducts = [...defaultProducts, ...(JSON.parse(localStorage.getItem("farmerProducts")) || []).map(p => ({...p, category: p.category || "Organic Specials"}))];
+
+function updateStats(products) {
+  document.getElementById("farmerCount").textContent = new Set(products.map(p => p.farmer)).size;
+  document.getElementById("productCount").textContent = products.length;
+  document.getElementById("orderCount").textContent = products.reduce((sum, p) => sum + (p.sales || 0), 0);
+}
+
+function renderProducts(products) {
+  const container = document.getElementById("productList");
+  const noResults = document.getElementById("noResults");
+  container.innerHTML = "";
+  
+  if (products.length === 0) {
+    noResults.style.display = "block";
+  } else {
+    noResults.style.display = "none";
+  }
+
+  let savedRatings = JSON.parse(localStorage.getItem("productRatings")) || {};
+  let topFarmer = products.reduce((max, p) => p.sales > max.sales ? p : max, products[0] || {}).farmer;
+
+  products.forEach((p) => {
+    let ratingValue = savedRatings[p.name] || p.rating;
+    let starsHTML = "";
+    for (let i = 1; i <= 5; i++) {
+      starsHTML += `<span class="star ${i <= ratingValue ? 'selected' : ''}" data-product="${p.name}" data-value="${i}">★</span>`;
+    }
+    container.innerHTML += `
+      <div class="product-card" data-price="${p.price}" data-name="${p.name}">
+        ${p.farmer === topFarmer ? `<div class="top-farmer">🏆 Top Farmer</div>` : ""}
+        <img src="${p.img}" alt="${p.name}">
+        <div class="product-info">
+          <div class="farmer-badge">👩‍🌾 ${p.farmer} <span class="verified">✔</span> | ${p.location}</div>
+          <div class="sales-count">📦 ${p.sales}+ sales</div>
+          <h5>${p.name}</h5>
+          <div class="stars">${starsHTML}</div>
+          <div class="price">₹${p.price}/kg</div>
+          <input type="number" class="quantity" min="1" value="1" data-price="${p.price}">
+          <p class="total-price">Total: ₹${p.price}</p>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.querySelectorAll(".star").forEach(star => {
+    star.addEventListener("click", function() {
+      const productName = this.getAttribute("data-product");
+      const value = parseInt(this.getAttribute("data-value"));
+      let ratings = JSON.parse(localStorage.getItem("productRatings")) || {};
+      ratings[productName] = value;
+      localStorage.setItem("productRatings", JSON.stringify(ratings));
+      renderProducts(products);
+    });
+  });
+
+  document.querySelectorAll(".quantity").forEach(input => {
+    input.addEventListener("input", function() {
+      const price = parseFloat(this.getAttribute("data-price"));
+      const qty = parseInt(this.value) || 1;
+      const totalPrice = this.parentElement.querySelector(".total-price");
+      totalPrice.textContent = `Total: ₹${price * qty}`;
+    });
+  });
+
+  updateStats(products);
+}
+
+renderProducts(allProducts);
+
+document.getElementById("searchInput").addEventListener("input", function() {
+  const filter = this.value.toLowerCase();
+  renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(filter)));
+});
+
+document.getElementById("sortSelect").addEventListener("change", function() {
+  let sorted = [...allProducts];
+  if (this.value === "low") {
+    sorted.sort((a, b) => a.price - b.price);
+  } else if (this.value === "high") {
+    sorted.sort((a, b) => b.price - a.price);
+  }
+  renderProducts(sorted);
+});
+
+document.querySelectorAll(".category-tag").forEach(tag => {
+  tag.addEventListener("click", function() {
+    document.querySelectorAll(".category-tag").forEach(t => t.classList.remove("active"));
+    this.classList.add("active");
+    const cat = this.getAttribute("data-category");
+    if (cat === "all") {
+      renderProducts(allProducts);
+    } else {
+      renderProducts(allProducts.filter(p => p.category === cat));
+    }
+  });
+});
+</script>
+</body>
+</html>
